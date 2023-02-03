@@ -100,7 +100,17 @@ public final class TypeMapping<S, D> implements InternalMapper<S, D> {
   }
 
   @Override
+  public D map(S source, D destination, boolean writeNullIfSourceIsNull) {
+    return conversionFunction.apply(source, ofNullable(destination));
+  }
+
+  @Override
   public D map(S source) {
+    return conversionFunction.apply(source, empty());
+  }
+
+  @Override
+  public D map(S source, boolean writeNullIfSourceIsNull) {
     return conversionFunction.apply(source, empty());
   }
 

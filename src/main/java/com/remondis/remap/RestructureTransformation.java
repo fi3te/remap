@@ -41,6 +41,14 @@ class RestructureTransformation<S, D, RD> extends Transformation {
   }
 
   @Override
+  protected void performTransformation(PropertyDescriptor sourceProperty, Object source,
+      PropertyDescriptor destinationProperty, Object destination, boolean writeNullIfSourceIsNull)
+      throws MappingException {
+    // parameter writeNullIfSourceIsNull will be ignored
+    performTransformation(sourceProperty, source, destinationProperty, destination);
+  }
+
+  @Override
   protected MappedResult performValueTransformation(Object source, Object destination) throws MappingException {
     RD destinationValue = null;
     if (objectCreator.isPresent()) {

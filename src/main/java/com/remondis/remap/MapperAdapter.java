@@ -21,8 +21,18 @@ class MapperAdapter<S, D> implements InternalMapper<S, D> {
   }
 
   @Override
+  public D map(S source, D destination, boolean writeNullIfSourceIsNull) {
+    return mapper.map(source, destination, writeNullIfSourceIsNull);
+  }
+
+  @Override
   public D map(S source) {
     return mapper.map(source);
+  }
+
+  @Override
+  public D map(S source, boolean writeNullIfSourceIsNull) {
+    return mapper.map(source, writeNullIfSourceIsNull);
   }
 
   @Override

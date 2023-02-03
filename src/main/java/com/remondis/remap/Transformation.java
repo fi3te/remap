@@ -87,6 +87,19 @@ abstract class Transformation {
   }
 
   /**
+   * Performs the transformation for the specified source and destination.
+   *
+   * @param source The source object
+   * @param destination The destination object.
+   * @param writeNullIfSourceIsNull Uses the corresponding configuration for all involved mapping configurations.
+   * @throws MappingException Thrown on any transformation error.
+   */
+  public void performTransformation(Object source, Object destination, boolean writeNullIfSourceIsNull)
+      throws MappingException {
+    performTransformation(sourceProperty, source, destinationProperty, destination, writeNullIfSourceIsNull);
+  }
+
+  /**
    * Performs a single transformation step while mapping.
    *
    * @param sourceProperty The source property
@@ -97,6 +110,20 @@ abstract class Transformation {
    */
   protected abstract void performTransformation(PropertyDescriptor sourceProperty, Object source,
       PropertyDescriptor destinationProperty, Object destination) throws MappingException;
+
+  /**
+   * Performs a single transformation step while mapping.
+   *
+   * @param sourceProperty The source property
+   * @param source The source object to map from.
+   * @param destinationProperty The destination property
+   * @param destination The destination object to map to.
+   * @param writeNullIfSourceIsNull Uses the corresponding configuration for all involved mapping configurations.
+   * @throws MappingException Thrown on any mapping exception.
+   */
+  protected abstract void performTransformation(PropertyDescriptor sourceProperty, Object source,
+      PropertyDescriptor destinationProperty, Object destination, boolean writeNullIfSourceIsNull)
+      throws MappingException;
 
   /**
    * Performs a single value transformation. This method is used to provide single field mappings via

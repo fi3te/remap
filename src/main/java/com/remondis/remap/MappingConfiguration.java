@@ -95,7 +95,7 @@ public class MappingConfiguration<S, D> {
   private boolean noImplicitMappings;
 
   /**
-   * Write null if the source value is null.
+   * Write null if the source value is null. Can be overwritten via a parameter in the map operation.
    */
   private boolean writeNullIfSourceIsNull;
 
@@ -730,13 +730,37 @@ public class MappingConfiguration<S, D> {
 
   /**
    * Performs the actual mapping with iteration recursively through the object hierarchy.
-   * Warning, this feature is not provided for nested Collections instances, only for instances and nested instances
+   *
+   * @param source The source object to map to a new destination object.
+   * @param writeNullIfSourceIsNull Uses the corresponding configuration for all involved mapping configurations.
+   * @return Returns a newly created destination object.
+   */
+  D map(S source, boolean writeNullIfSourceIsNull) {
+    return map(source, null, writeNullIfSourceIsNull);
+  }
+
+  /**
+   * Performs the actual mapping with iteration recursively through the object hierarchy.
+   * Warning: This feature is not provided for nested Collections instances, only for instances and nested instances.
    *
    * @param source The source object to map to a new destination object.
    * @param destination The destination object to populate
    * @return Returns a newly created destination object.
    */
   D map(S source, D destination) {
+    return map(source, destination, null);
+  }
+
+  /**
+   * Performs the actual mapping with iteration recursively through the object hierarchy.
+   * Warning: This feature is not provided for nested Collections instances, only for instances and nested instances.
+   *
+   * @param source The source object to map to a new destination object.
+   * @param destination The destination object to populate
+   * @param writeNullIfSourceIsNull Uses the corresponding configuration for all involved mapping configurations.
+   * @return Returns a newly created destination object.
+   */
+  D map(S source, D destination, Boolean writeNullIfSourceIsNull) {
     D destinationObject = destination;
     if (source == null) {
       throw MappingException.denyMappingOfNull();
@@ -745,7 +769,11 @@ public class MappingConfiguration<S, D> {
       destinationObject = createDestination();
     }
     for (Transformation t : mappings) {
-      t.performTransformation(source, destinationObject);
+      if (writeNullIfSourceIsNull != null) {
+        t.performTransformation(source, destinationObject, writeNullIfSourceIsNull);
+      } else {
+        t.performTransformation(source, destinationObject);
+      }
     }
     return destinationObject;
   }

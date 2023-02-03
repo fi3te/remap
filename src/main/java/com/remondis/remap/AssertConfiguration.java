@@ -232,11 +232,7 @@ public class AssertConfiguration<S, D> {
   }
 
   /**
-   * Expects the mapper to suppress creation of implicit mappings. Note: This requires the user to define the mappings
-   * explicitly using {@link MappingConfiguration#reassign(FieldSelector)} or any other mapping operation. Therefore all
-   * this
-   * explicit
-   * mappings must be backed by an assertion.
+   * Expects the mapper to write null into destination if the source value is null.
    *
    * @return Returns this instance for further configuration.
    */

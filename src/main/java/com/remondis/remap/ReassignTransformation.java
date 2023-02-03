@@ -41,6 +41,13 @@ public class ReassignTransformation extends Transformation {
   @Override
   protected void performTransformation(PropertyDescriptor sourceProperty, Object source,
       PropertyDescriptor destinationProperty, Object destination) throws MappingException {
+    performTransformation(sourceProperty, source, destinationProperty, destination, mapping.isWriteNull());
+  }
+
+  @Override
+  protected void performTransformation(PropertyDescriptor sourceProperty, Object source,
+      PropertyDescriptor destinationProperty, Object destination, boolean writeNullIfSourceIsNull)
+      throws MappingException {
     Object sourceValue = readOrFail(sourceProperty, source);
     MappedResult result = MappedResult.skip();
 
@@ -48,7 +55,7 @@ public class ReassignTransformation extends Transformation {
       result = performValueTransformation(sourceValue, destination);
     }
 
-    if (result.hasValue() || mapping.isWriteNull()) {
+    if (result.hasValue() || writeNullIfSourceIsNull) {
       writeOrFail(destinationProperty, destination, result.getValue());
     }
   }

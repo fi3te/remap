@@ -71,6 +71,14 @@ public class PropertyPathTransformation<RS, X, RD> extends Transformation {
   }
 
   @Override
+  protected void performTransformation(PropertyDescriptor sourceProperty, Object source,
+      PropertyDescriptor destinationProperty, Object destination, boolean writeNullIfSourceIsNull)
+      throws MappingException {
+    // parameter writeNullIfSourceIsNull will be ignored
+    performTransformation(sourceProperty, source, destinationProperty, destination);
+  }
+
+  @Override
   protected MappedResult performValueTransformation(Object source, Object destination) throws MappingException {
     if (source == null) {
       // Skip if source value is null. Property paths are null-friendly.

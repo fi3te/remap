@@ -46,6 +46,14 @@ class ReplaceCollectionTransformation<RS, RD> extends SkipWhenNullTransformation
     }
   }
 
+  @Override
+  protected void performTransformation(PropertyDescriptor sourceProperty, Object source,
+      PropertyDescriptor destinationProperty, Object destination, boolean writeNullIfSourceIsNull)
+      throws MappingException {
+    // parameter writeNullIfSourceIsNull will be ignored
+    performTransformation(sourceProperty, source, destinationProperty, destination);
+  }
+
   @SuppressWarnings({
       "rawtypes", "unchecked"
   })

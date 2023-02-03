@@ -18,7 +18,18 @@ interface InternalMapper<S, D> {
    * @param destination The destination object to map into.
    * @return Returns the specified destination object.
    */
-  public D map(S source, D destination);
+  D map(S source, D destination);
+
+  /**
+   * Performs the mapping from the source into a specified destination object while overwriting fields in the
+   * destination object if affected by the mapping configuration.
+   *
+   * @param source The source object to map to a new destination object.
+   * @param destination The destination object to map into. Field affected by the mapping will be overwritten.
+   * @param writeNullIfSourceIsNull Uses the corresponding configuration for all involved mapping configurations.
+   * @return Returns the specified destination object.
+   */
+  D map(S source, D destination, boolean writeNullIfSourceIsNull);
 
   /**
    * Performs the mapping from the source into a new destination object. This method is expected to return a new
@@ -27,13 +38,22 @@ interface InternalMapper<S, D> {
    * @param source The source object.
    * @return Returns the specified destination object.
    */
-  public D map(S source);
+  D map(S source);
+
+  /**
+   * Performs the mapping from the source to destination type.
+   *
+   * @param source The source object to map to a new destination object.
+   * @param writeNullIfSourceIsNull Uses the corresponding configuration for all involved mapping configurations.
+   * @return Returns a newly created destination object.
+   */
+  D map(S source, boolean writeNullIfSourceIsNull);
 
   /**
    * Returns the {@link Projection} this mapper defines.
    *
    * @return Returns the type projection information.
    */
-  public Projection<S, D> getProjection();
+  Projection<S, D> getProjection();
 
 }
